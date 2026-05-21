@@ -1,11 +1,10 @@
 # detector.py
 import cv2
-import mediapipe as mp
+from mediapipe.python.solutions import pose
 import numpy as np
 
 # MediaPipe setup
-mp_pose = mp.solutions.pose
-posture_feedback = "—"
+mp_pose = pose
 
 pose = mp_pose.Pose(
     min_detection_confidence=0.7,
