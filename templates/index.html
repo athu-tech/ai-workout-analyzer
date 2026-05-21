@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Workout Analyzer</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+  <nav class="navbar">
+    <div class="logo">
+      <div class="logo-icon">
+        <svg viewBox="0 0 20 20" fill="none">
+          <polygon points="10,2 18,6.5 18,13.5 10,18 2,13.5 2,6.5" stroke="white" stroke-width="1.5" fill="none"/>
+          <circle cx="10" cy="10" r="2.5" fill="white"/>
+        </svg>
+      </div>
+      <span class="logo-text">AI <span>Workout</span> Analyzer</span>
+    </div>
+    <div class="live-badge-nav">
+      <span class="live-dot-nav"></span>Live session
+    </div>
+  </nav>
+
+  <section class="hero">
+    <div class="hero-tag">⚡ Powered by computer vision</div>
+    <h1>AI-Powered Real-Time Workout Analysis</h1>
+    <p>Track posture, reps, and form quality using <span class="accent">pose estimation</span> — zero wearables, zero guesswork.</p>
+  </section>
+
+  <div class="main-layout">
+
+    <div class="feed-col">
+      <div class="webcam-wrapper">
+        <img src="{{ url_for('video_feed') }}" class="webcam-feed" alt="Live webcam feed">
+        <div class="corner tl"></div>
+        <div class="corner tr"></div>
+        <div class="corner bl"></div>
+        <div class="corner br"></div>
+        <div class="live-badge-feed">
+          <span class="live-dot-feed"></span>LIVE
+        </div>
+      </div>
+
+      <div class="analytics-row">
+        <div class="analytic-card">
+          <div class="analytic-label">AI feedback</div>
+          <div class="analytic-val green" id="feedback-val">—</div>
+        </div>
+        <div class="analytic-card">
+          <div class="analytic-label">Reps / min</div>
+          <div class="analytic-val coral" id="rpm-val">0</div>
+        </div>
+        <div class="analytic-card">
+          <div class="analytic-label">Session quality</div>
+          <div class="analytic-val" id="quality-val">—</div>
+        </div>
+      </div>
+    </div>
+
+    <aside class="right-col">
+
+      <div class="motiv-banner">
+        <div class="motiv-word" id="motiv-text">LET'S GO 🔥</div>
+        <div class="motiv-sub" id="motiv-sub">keep your core tight and breathe</div>
+      </div>
+
+      <div class="ring-section">
+        <div class="ring-label">Rep counter</div>
+        <svg class="ring-svg" viewBox="0 0 110 110">
+          <circle class="ring-track" cx="55" cy="55" r="44"/>
+          <circle class="ring-fill" id="ring-fill" cx="55" cy="55" r="44"
+            stroke-dasharray="276.5" stroke-dashoffset="276.5"/>
+          <text x="55" y="51" text-anchor="middle" font-size="24" font-weight="500" fill="#712B13" id="ring-count">0</text>
+          <text x="55" y="66" text-anchor="middle" font-size="10" fill="#D85A30" id="ring-target">of 20 target</text>
+        </svg>
+        <span class="ring-pct" id="ring-pct">0% of goal</span>
+      </div>
+
+      <div class="stat-card coral-bg">
+        <div class="stat-label">Stage</div>
+        <div class="stat-value" id="stage-val">—</div>
+        <div class="stat-sub" id="stage-sub">movement phase</div>
+      </div>
+
+      <div class="stat-card green-bg" id="posture-card">
+        <div class="stat-label">Posture</div>
+        <div class="stat-value" id="posture-val">—</div>
+        <div class="stat-sub" id="posture-sub">body alignment</div>
+      </div>
+
+      <div class="timer-card">
+        <div class="timer-dot"></div>
+        <div>
+          <div class="timer-val" id="timer-display">00:00</div>
+          <div class="timer-label">workout duration</div>
+        </div>
+      </div>
+
+      <select class="exercise-select" id="exercise-select">
+        <option value="pushups">Push-ups</option>
+        <option value="squats" disabled>Squats (coming soon)</option>
+        <option value="curls" disabled>Bicep curls (coming soon)</option>
+        <option value="pullups" disabled>Pull-ups (coming soon)</option>
+      </select>
+
+      <button class="reset-btn" id="reset-btn">Reset session</button>
+
+    </aside>
+
+  </div>
+
+  <section class="how-section">
+    <div class="section-label">How it works</div>
+    <div class="how-grid">
+      <div class="how-card">
+        <div class="how-icon">📷</div>
+        <div class="how-title">OpenCV</div>
+        <div class="how-desc">Captures webcam frames and processes them in real time at up to 30fps.</div>
+      </div>
+      <div class="how-card">
+        <div class="how-icon">🦴</div>
+        <div class="how-title">MediaPipe</div>
+        <div class="how-desc">Detects 33 body landmarks using Google's ML pose estimation model.</div>
+      </div>
+      <div class="how-card">
+        <div class="how-icon">📐</div>
+        <div class="how-title">Angle analysis</div>
+        <div class="how-desc">Calculates joint angles using vector math to determine rep stage and depth.</div>
+      </div>
+      <div class="how-card">
+        <div class="how-icon">🧠</div>
+        <div class="how-title">AI feedback</div>
+        <div class="how-desc">Delivers live coaching cues for depth, posture, and form every frame.</div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <span class="footer-copy">Built with Python · Flask · OpenCV · MediaPipe · Computer Vision</span>
+    <div class="tech-pills">
+      <span class="pill">Python</span>
+      <span class="pill">Flask</span>
+      <span class="pill">OpenCV</span>
+      <span class="pill">MediaPipe</span>
+    </div>
+  </footer>
+
+  <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
