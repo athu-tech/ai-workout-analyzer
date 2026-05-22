@@ -4,7 +4,10 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>AI Workout Analyzer</title>
-  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
 
@@ -33,13 +36,21 @@
 
     <div class="feed-col">
       <div class="webcam-wrapper">
-        <img src="{{ url_for('video_feed') }}" class="webcam-feed" alt="Live webcam feed">
+        <!-- Video feed from webcam -->
+        <video id="webcam" autoplay playsinline muted></video>
+        <!-- Canvas overlay for skeleton drawing -->
+        <canvas id="overlay-canvas"></canvas>
+
         <div class="corner tl"></div>
         <div class="corner tr"></div>
         <div class="corner bl"></div>
         <div class="corner br"></div>
         <div class="live-badge-feed">
           <span class="live-dot-feed"></span>LIVE
+        </div>
+        <div class="loading-overlay" id="loading-overlay">
+          <div class="loading-spinner"></div>
+          <div class="loading-text">Initializing pose model…</div>
         </div>
       </div>
 
@@ -116,13 +127,13 @@
     <div class="how-grid">
       <div class="how-card">
         <div class="how-icon">📷</div>
-        <div class="how-title">OpenCV</div>
-        <div class="how-desc">Captures webcam frames and processes them in real time at up to 30fps.</div>
+        <div class="how-title">WebRTC</div>
+        <div class="how-desc">Captures webcam frames directly in the browser via the MediaDevices API at up to 30fps.</div>
       </div>
       <div class="how-card">
         <div class="how-icon">🦴</div>
         <div class="how-title">MediaPipe</div>
-        <div class="how-desc">Detects 33 body landmarks using Google's ML pose estimation model.</div>
+        <div class="how-desc">Detects 33 body landmarks using Google's ML pose estimation model, running fully on-device via WASM.</div>
       </div>
       <div class="how-card">
         <div class="how-icon">📐</div>
@@ -132,21 +143,32 @@
       <div class="how-card">
         <div class="how-icon">🧠</div>
         <div class="how-title">AI feedback</div>
-        <div class="how-desc">Delivers live coaching cues for depth, posture, and form every frame.</div>
+        <div class="how-desc">Delivers live coaching cues for depth, posture, and form quality every frame.</div>
       </div>
     </div>
   </section>
 
   <footer class="footer">
-    <span class="footer-copy">Built with Python · Flask · OpenCV · MediaPipe · Computer Vision</span>
+    <span class="footer-copy">Built with MediaPipe · WebRTC · Canvas API · Vanilla JS</span>
     <div class="tech-pills">
-      <span class="pill">Python</span>
-      <span class="pill">Flask</span>
-      <span class="pill">OpenCV</span>
       <span class="pill">MediaPipe</span>
+      <span class="pill">WebRTC</span>
+      <span class="pill">Canvas API</span>
+      <span class="pill">Vanilla JS</span>
     </div>
   </footer>
 
-  <script src="{{ url_for('static', filename='script.js') }}"></script>
+  <!-- MediaPipe Pose via CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/@mediapipe/camera_utils/camera_utils.js" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@mediapipe/control_utils/control_utils.js" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@mediapipe/drawing_utils/drawing_utils.js" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@mediapipe/pose/pose.js" crossorigin="anonymous"></script>
+
+  <!-- App modules -->
+  <script src="js/poseDetector.js"></script>
+  <script src="js/workoutLogic.js"></script>
+  <script src="js/ui.js"></script>
+  <script src="js/app.js"></script>
+
 </body>
 </html>

@@ -26,7 +26,7 @@ html { scroll-behavior: smooth; }
 body {
   background: var(--cream);
   color: var(--text-primary);
-  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  font-family: 'DM Sans', system-ui, -apple-system, sans-serif;
   font-size: 14px;
   line-height: 1.5;
   min-height: 100vh;
@@ -62,7 +62,12 @@ body {
 
 .logo-icon svg { width: 16px; height: 16px; }
 
-.logo-text { font-size: 16px; font-weight: 500; color: var(--text-primary); }
+.logo-text {
+  font-family: 'Syne', sans-serif;
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--text-primary);
+}
 .logo-text span { color: var(--coral); }
 
 .live-badge-nav {
@@ -112,8 +117,9 @@ body {
 }
 
 .hero h1 {
+  font-family: 'Syne', sans-serif;
   font-size: 22px;
-  font-weight: 500;
+  font-weight: 700;
   color: var(--text-primary);
   margin-bottom: 6px;
 }
@@ -137,6 +143,7 @@ body {
   gap: 14px;
 }
 
+/* ── Webcam wrapper: video + canvas stacked ── */
 .webcam-wrapper {
   position: relative;
   border-radius: 20px;
@@ -147,11 +154,63 @@ body {
   min-height: 340px;
 }
 
-.webcam-feed {
+#webcam {
+  position: absolute;
+  inset: 0;
   width: 100%;
   height: 100%;
   object-fit: cover;
   display: block;
+  transform: scaleX(-1); /* mirror for natural feel */
+}
+
+#overlay-canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+/* ── Loading overlay ── */
+.loading-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(253, 248, 245, 0.92);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  z-index: 10;
+  border-radius: 18px;
+  transition: opacity 0.4s ease;
+}
+
+.loading-overlay.hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.loading-spinner {
+  width: 40px;
+  height: 40px;
+  border: 3px solid var(--coral-mid);
+  border-top-color: var(--coral);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.loading-text {
+  font-family: 'Syne', sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--coral-dark);
+  letter-spacing: 0.03em;
 }
 
 .corner {
@@ -160,6 +219,7 @@ body {
   height: 18px;
   border-color: var(--coral);
   border-style: solid;
+  z-index: 2;
 }
 .corner.tl { top: 12px; left: 12px; border-width: 2px 0 0 2px; border-radius: 4px 0 0 0; }
 .corner.tr { top: 12px; right: 12px; border-width: 2px 2px 0 0; border-radius: 0 4px 0 0; }
@@ -181,6 +241,7 @@ body {
   display: flex;
   align-items: center;
   gap: 5px;
+  z-index: 2;
 }
 
 .live-dot-feed {
@@ -212,8 +273,9 @@ body {
 }
 
 .analytic-val {
+  font-family: 'Syne', sans-serif;
   font-size: 17px;
-  font-weight: 500;
+  font-weight: 600;
   color: var(--text-primary);
 }
 
@@ -239,8 +301,9 @@ body {
 }
 
 .motiv-word {
-  font-size: 24px;
-  font-weight: 500;
+  font-family: 'Syne', sans-serif;
+  font-size: 22px;
+  font-weight: 800;
   color: white;
   letter-spacing: 0.05em;
 }
@@ -263,11 +326,12 @@ body {
 
 .ring-label {
   font-size: 10px;
-  font-weight: 500;
+  font-weight: 600;
   color: var(--coral-dark);
   text-transform: uppercase;
   letter-spacing: 0.08em;
   margin-bottom: 10px;
+  font-family: 'Syne', sans-serif;
 }
 
 .ring-svg {
@@ -305,6 +369,7 @@ body {
 .stat-card {
   border-radius: 16px;
   padding: 13px 15px;
+  transition: background 0.3s ease;
 }
 
 .stat-card.coral-bg { background: var(--coral-light); }
@@ -313,8 +378,11 @@ body {
 
 .stat-label {
   font-size: 10px;
-  font-weight: 500;
+  font-weight: 600;
   margin-bottom: 3px;
+  font-family: 'Syne', sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
 }
 
 .stat-card.coral-bg .stat-label { color: var(--coral-dark); }
@@ -322,17 +390,20 @@ body {
 .stat-card.plain .stat-label { color: var(--text-muted); }
 
 .stat-value {
-  font-size: 20px;
-  font-weight: 500;
+  font-family: 'Syne', sans-serif;
+  font-size: 18px;
+  font-weight: 700;
+  transition: color 0.3s ease;
 }
 
 .stat-card.coral-bg .stat-value { color: var(--coral-darker); }
-.stat-card.green-bg .stat-value { color: #27500A; font-size: 15px; }
+.stat-card.green-bg .stat-value { color: #27500A; font-size: 14px; }
 .stat-card.plain .stat-value { color: var(--text-primary); }
 
 .stat-sub {
   font-size: 10px;
   margin-top: 2px;
+  transition: color 0.3s ease;
 }
 
 .stat-card.coral-bg .stat-sub { color: var(--coral); }
@@ -360,8 +431,9 @@ body {
 }
 
 .timer-val {
+  font-family: 'Syne', sans-serif;
   font-size: 22px;
-  font-weight: 500;
+  font-weight: 700;
   color: var(--text-primary);
   font-variant-numeric: tabular-nums;
 }
@@ -384,6 +456,7 @@ body {
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23993C1D' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
   background-repeat: no-repeat;
   background-position: right 14px center;
+  font-family: 'DM Sans', sans-serif;
 }
 
 /* Reset */
@@ -397,6 +470,7 @@ body {
   font-size: 12px;
   cursor: pointer;
   transition: all 0.2s;
+  font-family: 'DM Sans', sans-serif;
 }
 
 .reset-btn:hover {
@@ -407,8 +481,9 @@ body {
 
 /* ── Section label ── */
 .section-label {
+  font-family: 'Syne', sans-serif;
   font-size: 10px;
-  font-weight: 500;
+  font-weight: 700;
   color: var(--text-muted);
   text-transform: uppercase;
   letter-spacing: 0.1em;
@@ -452,7 +527,13 @@ body {
   margin-bottom: 10px;
 }
 
-.how-title { font-size: 13px; font-weight: 500; color: var(--text-primary); margin-bottom: 4px; }
+.how-title {
+  font-family: 'Syne', sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 4px;
+}
 .how-desc { font-size: 11px; color: var(--text-secondary); line-height: 1.5; }
 
 /* ── Footer ── */
